@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+*{
+margin: 0%;
+padding: 0%;
+box-sizing: border-box;
+}
+nav{
+background-color: #011f4b;
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 9px;
+color:white;
+font-family: "Poppins", sans-serif;
+}
+.links{
+display: flex;
+gap:45px;
+
+}
+.links li{
+list-style-type: none;
+}
+#logo{
+margin-left: 30px;
+}
+.links{
+margin-right: 50px;
+}
+.link, #logo{
+text-decoration: none;
+color:white
+} 
+#logo{
+font-size: 29px;
+}
+
+#menu, .menu{
+display: none;
+}
+
+
+main{
+margin-top: 20px;
+}
+.code-editor{
+display: flex;
+gap:30px;
+width: 90%;
+margin: auto;
+ 
+}
+.editor {
+height: 60vh;
+width: 70%;
+max-width: 100%;  
+overflow: hidden;
+box-shadow: 0px 15px 80px rgba(0, 0, 0, 0.15);
+}
+.output{
+height: 60vh;
+padding: 20px;
+overflow-x: auto;
+width: 30%;
+overflow-y: auto;
+border-radius: 10px;
+box-shadow: 0px 15px 80px rgba(0, 0, 0, 0.15);
+font-size: 19px;
+line-height: 45px;
+}
+
+.bar{
+display: flex;
+justify-content: space-around;
+padding: 20px;
+background-color: brown;
+}
+
+
+.bar select{
+padding: 10px;
+font-family: "Poppins", sans-serif;
+cursor: pointer;
+}
+.bar label{
+font-size: 21px;
+font-family: "Poppins", sans-serif;
+color: white;
+cursor: pointer;
+}
+.bar button{
+width: 150px;
+font-family: "Poppins", sans-serif;
+padding: 5px;
+border-radius: 10px;
+cursor: pointer;
+background-color: rgb(11, 180, 11);
+color:white;
+box-sizing: border-box; 
+border: none;
+border:2px solid rgb(11, 180, 11);
+}
+.buttons{
+    display: flex;
+    gap:15px
+}
+.bar i{
+    margin-right: 9px;
+}
+.h1{
+font-family: "Poppins", sans-serif;
+text-align: center;
+margin: 20px;
+}
+.content{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    width: 90%;
+    margin: auto;
+    margin-top: 30px;
+}
+.content h1{
+    margin:0px;
+}
+.content h1, .content p{
+    text-align: left;
+    font-family: "Poppins", sans-serif;
+}
+.content p{
+    font-size: 16px;
+}
+@media screen and (max-width:800px) {
+nav{
+z-index: 3;
+height: 7vh;
+display: flex;
+justify-content: space-between;
+align-items: normal;
+position: fixed;
+width: 100%;
+transition: all 0.3s ease-in-out;
+top:0;
+width: 100%;
+}
+
+.links{
+position: absolute;
+display: flex;
+flex-direction: column;
+top:80px;
+width: 100%;
+justify-content: center;
+animation: fading 0.5s ease-in-out; 
+gap:30px;
+left:35%;
+top: 35%;
+width: 100%;
+display: none;
+}
+
+#menu, .menu{
+display: block;
+}
+#logo{
+margin-left: 15px;
+font-size: 18px;
+}
+.menu i{
+font-size: 21px;
+margin-top: 3px;
+margin-right: 15px;
+transition: all 0.1s ease-in-out;
+}
+#open{
+transition: all 0.3s ease-in-out;
+}
+#close{
+display: none;  transition: all 0.3s ease-in-out;
+}
+
+
+main{
+margin-top: 70px;
+}
+
+.code-editor{
+width: 95%;
+flex-direction: column;
+}
+.editor, .output{
+width: 100%;
+}
+
+.bar{
+flex-direction: column;
+gap:30px;
+margin-top: 60px;
+}
+}
+
+@keyframes fading {
+from{
+transform: translateX(-100%);
+}
+to{
+transform: translateX(0%);
+}
+}

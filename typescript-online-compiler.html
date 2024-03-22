@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <title>TypeScript Online Compiler (Editor)</title>
+</head>
+<body>
+<nav>
+<a href="/index.html" id="logo">Fish</a>
+<ul class="links">
+<li><a href="./html-code-editor.html" class="link">HTML</a></li>
+<li><a href="./js-online-compiler.html" class="link">JavaScript</a></li>
+<li><a href="./bootstrap-code-editor.html" class="link">BootStrap</a></li>
+<li><a href="./typescript-online-compiler.html" class="link">TypeScript</a></li>
+</ul>
+
+<div class="menu" id="menu">
+<i class="fa-solid fa-bars" id="open" ></i>
+<i class="fa-sharp fa-solid fa-xmark" id="close"></i>
+</div>
+</nav>
+
+<div class="bar">
+<div class="themes"><label for="theme-selector">Select Theme:</label>
+<select id="theme-selector" onchange="changeTheme()">
+<option value="vs">Light Theme</option>
+<option value="vs-dark">Dark Theme</option>
+<option value="hc-black">High Contrast</option>
+</select> </div>
+<button id="compile-button"><i class="fa-solid fa-play"></i>Compile Code</button>
+</div>
+
+<main>
+<div class="code-editor">
+<div class="editor"></div>
+<div class="output"></div>  
+</div>
+</main>
+<script src="./app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.29.0/min/vs/loader.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/typescript/4.6.2/typescript.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Load the Monaco Editor
+    require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.29.0/min/vs' }});
+    require(['vs/editor/editor.main'], function () {
+        // Monaco Editor is ready to be used
+        var editor = monaco.editor.create(document.getElementsByClassName('editor')[0], {
+            value: `console.log("Hello TypeScript!")`,
+            language: 'typescript',
+            theme: 'vs',
+            fontSize: 18
+        });
+
+        // Output area
+        var outputArea = document.getElementsByClassName('output')[0];
+
+        // Theme selection dropdown
+        var themeSelector = document.getElementById('theme-selector');
+
+        // Compile code button
+        var compileButton = document.getElementById('compile-button');
+        compileButton.addEventListener('click', function () {
+            var code = editor.getValue();
+            try {
+                // Transpile TypeScript to JavaScript
+                var jsCode = ts.transpileModule(code, {}).outputText;
+
+                // Create a new function and execute the transpiled JavaScript code
+                var executeFn = new Function(jsCode);
+                var result = captureConsoleLog(executeFn); // Capture the output of console.log()
+
+                // Display the result in the output area
+                outputArea.innerHTML = result;
+            } catch (error) {
+                console.error('Code execution error:', error);
+                outputArea.textContent = 'Error: ' + error.message;
+            }
+        });
+
+        // Function to capture console.log() output
+        function captureConsoleLog(fn) {
+            var logs = [];
+            var oldLog = console.log;
+            console.log = function () {
+                for (var i = 0; i < arguments.length; i++) {
+                    if (typeof arguments[i] === 'object') {
+                        logs.push(JSON.stringify(arguments[i]));
+                    } else {
+                        logs.push(arguments[i]);
+                    }
+                }
+                oldLog.apply(console, arguments);
+            };
+            fn(); // Execute the provided function
+            console.log = oldLog; // Restore the original console.log
+            return logs.join('\n'); // Return the captured output
+        }
+
+        // Function to change the Monaco Editor theme
+        window.changeTheme = function () {
+            var selectedTheme = themeSelector.value;
+            monaco.editor.setTheme(selectedTheme);
+        };
+    });
+});
+
+</script>
+    
+</body>
+</html>
