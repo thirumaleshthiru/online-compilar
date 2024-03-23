@@ -77,7 +77,7 @@
         // Function to compile and run Python code
         window.compileAndRun = function () {
             var code = editor.getValue();
-            fetch('http://localhost:3000/compile-run', {
+            fetch('https://python-api-zmf7.onrender.com/compile-run', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
