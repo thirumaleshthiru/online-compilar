@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Java Online Compiler</title>
+</head>
+<body>
+<nav>
+<a href="./index.html" id="logo"><i class="fa-solid fa-terminal"></i> Online Compiler</a>
+<div class="menu" id="menu">
+<i class="fa-solid fa-bars" id="open" ></i>
+<i class="fa-sharp fa-solid fa-xmark" id="close"></i>
+</div>
+
+<ul class="links">
+<li><a href="./html-code-editor.html" class="link">HTML</a></li>
+<li><a href="./js-online-compiler.html" class="link">JavaScript</a></li>
+<li><a href="./python-online-compiler.html" class="link">Python</a></li>
+<li><a href="./typescript-online-compiler.html" class="link">TypeScript</a></li>
+</ul>
+</nav>
+
+<div class="bar">
+    <div class="themes">
+        <label for="theme-selector">Select Theme:</label>
+        <select id="theme-selector" onchange="changeTheme()">
+            <option value="vs">Light Theme</option>
+            <option value="vs-dark">Dark Theme</option>
+            <option value="hc-black">High Contrast</option>
+        </select> 
+    </div>
+    <div class="buttons">
+        <button id="compile-button" onclick="compileAndRun()"><i class="fa-solid fa-play"></i>Run Code</button>
+        <button id="save-button" onclick="saveCode()">Save Code</button>
+    </div>
+</div>
+
+<main>
+    <h1 class="h1">Java Online Compiler</h1>
+    <div class="code-editor">
+        <div class="editor" id="editor"></div>
+        <div class="output" id="output"></div>
+    </div>
+</main>
+
+<section class="content">
+    <h1 class="h1">What is Online Java Compiler</h1>
+    <p>Java Online Compiler is a tool to write, compile, and run Java code online in real-time. It helps in learning Java programming and practicing Java coding online.</p>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.29.0/min/vs/loader.js"></script>
+<script>
+    let editor;
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Load the Monaco Editor
+        require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.29.0/min/vs' }});
+        require(['vs/editor/editor.main'], function () {
+            // Monaco Editor is ready to be used
+            editor = monaco.editor.create(document.getElementById('editor'), {
+                value: '// Type your Java code here\npublic class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n    }\n}',
+                language: 'java',
+                theme: 'vs',
+                fontSize: 18
+            });
+
+            // Function to change the Monaco Editor theme
+            window.changeTheme = function () {
+                var selectedTheme = document.getElementById('theme-selector').value;
+                monaco.editor.setTheme(selectedTheme);
+            };
+        });
+
+        // Function to compile and run Java code
+        window.compileAndRun = function () {
+            var code = editor.getValue();
+            fetch('https://java-api-ujbx.onrender.com/compile-run-java', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ code: code })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('output').innerText = data.output;
+                } else {
+                    document.getElementById('output').innerText = 'Error: ' + data.error;
+                }
+            })
+            .catch(error => {
+                document.getElementById('output').innerText = 'Error: ' + error.message;
+            });
+        };
+
+        // Function to save Java code
+        window.saveCode = function () {
+            var code = editor.getValue();
+            // Example: Save code using File API
+            var blob = new Blob([code], { type: 'text/plain' });
+            var filename = 'java_code.java'; // Adjust filename as needed
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = filename;
+            link.click();
+        };
+    });
+
+</script>
+<script src="./app.js"></script>
+</body>
+</html>
