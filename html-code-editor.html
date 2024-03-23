@@ -10,7 +10,7 @@
 </head>
 <body>
 <nav>
-<a href="./index.html" id="logo"><i class="fa-solid fa-terminal"></i> Online Compilar</a>
+<a href="./index.html" id="logo"><i class="fa-solid fa-terminal"></i> Online Compiler</a>
 <div class="menu" id="menu">
 <i class="fa-solid fa-bars" id="open" ></i>
 <i class="fa-sharp fa-solid fa-xmark" id="close"></i>
@@ -35,7 +35,7 @@
 </div>
 <div class="buttons">
     <button id="compile-button"><i class="fa-solid fa-play"></i>Execute Code</button>
-    <button id="save-button">Save Code</button></div>
+    <button id="save-button"><i class="fa-solid fa-save"></i> Save Code</button></div>
 </div>
 
 <main>
@@ -43,8 +43,9 @@
 <div class="code-editor">
 <div class="editor" id="editor">
 </div>
-<div class="output">
-</div>  
+ 
+<iframe id="output-iframe"></iframe>  
+   
 </div>
 </main>
 
@@ -59,60 +60,60 @@
 let editor;  
 
 document.addEventListener('DOMContentLoaded', function () {
-// Load the Monaco Editor
-require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.29.0/min/vs' }});
-require(['vs/editor/editor.main'], function () {
-// Monaco Editor is ready to be used
-editor = monaco.editor.create(document.getElementsByClassName('editor')[0], {
-value: `<h1>Welcome to Fish Code Editor</h1>`,
-language: 'html',
-theme: 'vs',
-fontSize: 18
-});
+    // Load the Monaco Editor
+    require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.29.0/min/vs' }});
+    require(['vs/editor/editor.main'], function () {
+        // Monaco Editor is ready to be used
+        editor = monaco.editor.create(document.getElementsByClassName('editor')[0], {
+            value: `<h1>Welcome to Fish Code Editor</h1>`,
+            language: 'html',
+            theme: 'vs',
+            fontSize: 18,
+            minimap: { enabled: false }
+        });
 
-// Output area
-var outputArea = document.getElementsByClassName('output')[0];
+        // Output area
+        var outputArea = document.getElementById('output-iframe').contentWindow.document;
 
-// Theme selection dropdown
-var themeSelector = document.getElementById('theme-selector');
+        // Theme selection dropdown
+        var themeSelector = document.getElementById('theme-selector');
 
-// Compile code button
-var compileButton = document.getElementById('compile-button');
-compileButton.addEventListener('click', function () {
-var code = editor.getValue();
-try {
-// Render the HTML code in the output area
-outputArea.innerHTML = code;
-} catch (error) {
-console.error('Code execution error:', error);
-outputArea.textContent = 'Error: ' + error.message;
-}
-});
+        // Compile code button
+        var compileButton = document.getElementById('compile-button');
+        compileButton.addEventListener('click', function () {
+            var code = editor.getValue();
+            try {
+                // Render the HTML code in the output iframe
+                outputArea.open();
+                outputArea.write(code);
+                outputArea.close();
+            } catch (error) {
+                console.error('Code execution error:', error);
+            }
+        });
 
-// Function to change the Monaco Editor theme
-window.changeTheme = function () {
-var selectedTheme = themeSelector.value;
-monaco.editor.setTheme(selectedTheme);
-};
-});
-
-function saveCode() {
-var code = editor.getValue();
-// Example: Save code using File API
-var blob = new Blob([code], { type: 'text/plain' });
-var filename = 'my_code.html'; // Adjust filename as needed
-var link = document.createElement('a');
-link.href = window.URL.createObjectURL(blob);
-link.download = filename;
-link.click();
-}
-
-// Add event listener to the save button
-var saveButton = document.getElementById('save-button');
-saveButton.addEventListener('click', saveCode);
+        // Function to change the Monaco Editor theme
+        window.changeTheme = function () {
+            var selectedTheme = themeSelector.value;
+            monaco.editor.setTheme(selectedTheme);
+        };
     });
+
+    function saveCode() {
+        var code = editor.getValue();
+        // Example: Save code using File API
+        var blob = new Blob([code], { type: 'text/plain' });
+        var filename = 'my_code.html'; // Adjust filename as needed
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = filename;
+        link.click();
+    }
+
+    // Add event listener to the save button
+    var saveButton = document.getElementById('save-button');
+    saveButton.addEventListener('click', saveCode);
+});
 </script>
-</script>
-    
 </body>
 </html>

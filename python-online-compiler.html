@@ -34,7 +34,7 @@
     </div>
     <div class="buttons">
         <button id="compile-button" onclick="compileAndRun()"><i class="fa-solid fa-play"></i>Run Code</button>
-        <button id="save-button" onclick="saveCode()">Save Code</button>
+        <button id="save-button" onclick="saveCode()"><i class="fa-solid fa-save"></i> Save Code</button>
     </div>
 </div>
 
@@ -64,7 +64,8 @@
                 value: 'print("Hello, World!")',
                 language: 'python',
                 theme: 'vs',
-                fontSize: 18
+                fontSize: 18,
+                minimap: { enabled: false }
             });
 
             // Function to change the Monaco Editor theme

@@ -72,6 +72,19 @@ font-size: 19px;
 line-height: 45px;
 }
 
+#output-iframe{
+height: 60vh;
+padding: 20px;
+overflow-x: auto;
+width: 30%;
+overflow-y: auto;
+border-radius: 10px;
+box-shadow: 0px 15px 80px rgba(0, 0, 0, 0.15);
+font-size: 19px;
+line-height: 45px;
+border: none;
+}
+
 .bar{
 display: flex;
 justify-content: space-around;
