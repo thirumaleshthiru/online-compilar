@@ -70,6 +70,7 @@ border-radius: 10px;
 box-shadow: 0px 15px 80px rgba(0, 0, 0, 0.15);
 font-size: 19px;
 line-height: 45px;
+font-family: "Poppins", sans-serif;
 }
 
 #output-iframe{
@@ -83,6 +84,7 @@ box-shadow: 0px 15px 80px rgba(0, 0, 0, 0.15);
 font-size: 19px;
 line-height: 45px;
 border: none;
+font-family: "Poppins", sans-serif;
 }
 
 .bar{
@@ -200,7 +202,7 @@ display: none;  transition: all 0.3s ease-in-out;
 
 
 main{
-margin-top: 70px;
+margin-top:7%;
 }
 
 .code-editor{
@@ -210,16 +212,18 @@ flex-direction: column;
 .editor, .output{
 width: 100%;
 }
+#output-iframe{
+width: 100%;
+}
 .editor{
-     
-     height: 45vh;
+height: 45vh;
 }
 
 .bar{
 flex-direction: column;
 gap:30px;
-margin-top: 60px;
-margin-bottom: 0px;
+margin-top:11%;
+ 
 }
 }
 
