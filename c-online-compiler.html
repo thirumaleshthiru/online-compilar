@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Python Online Compiler</title>
+    <title>C Online Compiler</title>
 </head>
 <body>
     <nav>
@@ -40,7 +40,7 @@
 </div>
 
 <main>
-    <h1 class="h1">Python Online Compiler</h1>
+    <h1 class="h1">C Online Compiler</h1>
     <div class="code-editor">
         <div class="editor" id="editor"></div>
         <div class="output" id="output"></div>
@@ -48,8 +48,8 @@
 </main>
 
 <section class="content">
-    <h1 class="h1">What is Online Python Compiler</h1>
-    <p>Python Online Compiler is a tool to write, compile, and run Python code online in real-time. It helps in learning Python programming and practicing Python coding online.</p>
+    <h1 class="h1">What is Online C Compiler</h1>
+    <p>C Online Compiler is a tool to write, compile, and run C code online in real-time. It helps in learning C programming and practicing C coding online.</p>
 </section>
 
 <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.29.0/min/vs/loader.js"></script>
@@ -62,8 +62,8 @@
         require(['vs/editor/editor.main'], function () {
             // Monaco Editor is ready to be used
             editor = monaco.editor.create(document.getElementById('editor'), {
-                value: 'print("Hello, World!")',
-                language: 'python',
+                value: '#include <stdio.h>\n\nint main() {\n    printf("Enter a number: ");\n    int num;\n    scanf("%d", &num);\n    printf("Entered number: %d\\n", num);\n    return 0;\n}',
+                language: 'c',
                 theme: 'vs',
                 fontSize: 18,
                 minimap: { enabled: false }
@@ -75,68 +75,66 @@
                 monaco.editor.setTheme(selectedTheme);
             };
         });
-
-        window.compileAndRun = function () {
-    var outputDiv = document.getElementById('output');
-    outputDiv.innerHTML = '<img src="infinite-spinner.svg" alt="Loading...">';  
-
-    var code = editor.getValue();
-    var inputs = {};
-    var outputLines = []; // Array to store output lines
-
-    // Regular expression to match input() function calls
-    var inputRegex = /input\s*\(\s*['"]([^'"]+)['"]\s*\)/g;
-
-    // Replace input() function calls with user input
-    code = code.replace(inputRegex, function(match, prompt) {
-        var inputStr = window.prompt(prompt);
-        if (inputStr !== null) { // If user provides input
-            inputs[prompt] = inputStr; // Store user input
-        }
-        return "'" + inputStr + "'"; // Replace input() call with user input
     });
 
-    fetch('https://python-compilergu.onrender.com/compile-run', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ code: code, inputs: inputs })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            var output = data.output;
-            // Print input prompt statements followed by their values
-            Object.keys(inputs).forEach(prompt => {
-                var inputStr = inputs[prompt];
-                output = output.replace("'" + inputStr + "'", "'" + prompt + inputStr + "'");
-            });
-            outputDiv.innerText = output;
-        } else {
-            outputDiv.innerText = 'Error: ' + data.error;
-        }
-    })
-    .catch(error => {
-        outputDiv.innerText = 'Error: ' + error.message;
-    });
-};
+    window.compileAndRun = function () {
+        var outputDiv = document.getElementById('output');
+        outputDiv.innerHTML = '<img src="infinite-spinner.svg" alt="Loading...">';  
+
+        var code = editor.getValue();
+        var inputs = {};
+
+        // Regular expression to match scanf() calls
+        var scanfRegex = /scanf\s*\(\s*['"]([^'"]+)['"]\s*,\s*&?([^)]+)\)/g;
+
+// Replace scanf() calls with user input values
+code = code.replace(scanfRegex, function(match, format, variable) {
+    var input = window.prompt("Enter a number for " + variable + ":");
+    if (input !== null) { // If user provides input
+        inputs[variable] = input; // Store user input
+        return variable + ' = ' + input + ';'; // Assign input value to the variable directly
+    } else {
+        return match; // If user cancels, keep original scanf call
+    }
+});
 
 
-        // Function to save Python code
-        window.saveCode = function () {
-            var code = editor.getValue();
-            // Example: Save code using File API
-            var blob = new Blob([code], { type: 'text/plain' });
-            var filename = 'python_code.py'; // Adjust filename as needed
-            var link = document.createElement('a');
-            link.href = window.URL.createObjectURL(blob);
-            link.download = filename;
-            link.click();
-        };
-    });
+        // Convert inputs to JSON string
+        var inputsJson = JSON.stringify(inputs);
+
+        fetch('https://c-compiler-mxw6.onrender.com/compile-run-c', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ code: code, input: inputsJson }) // Send inputs as JSON string
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                outputDiv.innerText = data.output;
+            } else {
+                outputDiv.innerText = 'Error: ' + data.error;
+            }
+        })
+        .catch(error => {
+            outputDiv.innerText = 'Error: ' + error.message;
+        });
+    };
+   
+    // Function to save C code
+    window.saveCode = function () {
+        var code = editor.getValue();
+        // Example: Save code using File API
+        var blob = new Blob([code], { type: 'text/plain' });
+        var filename = 'c_code.c'; // Adjust filename as needed
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = filename;
+        link.click();
+    };
 
 </script>
+
 <script src="./app.js"></script>
 </body>
-</html>
