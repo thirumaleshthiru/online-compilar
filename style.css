@@ -149,6 +149,9 @@ margin: 20px;
     font-size: 16px;
 }
 @media screen and (max-width:800px) {
+h1{
+    font-size:21px;
+}
 nav{
 z-index: 3;
 height: 7vh;
@@ -211,12 +214,17 @@ flex-direction: column;
 }
 .editor, .output{
 width: 100%;
+font-size: 15px;
+font-family: "Poppins", sans-serif;
 }
 #output-iframe{
 width: 100%;
+font-size: 15px;
+font-family: "Poppins", sans-serif;
 }
 .editor{
 height: 45vh;
+font-size: 15px
 }
 
 .bar{
