@@ -45,7 +45,7 @@ display: none;
 
 
 main{
-margin-top: 20px;
+margin-top: 25px;
 }
 .code-editor{
 display: flex;
@@ -132,6 +132,11 @@ font-family: "Poppins", sans-serif;
 text-align: center;
 margin: 20px;
 }
+.main-h1{
+font-family: "Poppins", sans-serif;
+text-align: center;
+margin: 20px;
+}
 .content{
     display: flex;
     flex-direction: column;
@@ -150,8 +155,69 @@ margin: 20px;
 .content p{
     font-size: 16px;
 }
+.cards{
+    display: flex;
+    padding: 50px;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap:55px;
+    align-items:center;
+    justify-content: start;
+    width: 90%;
+    margin: auto;
+}
+
+.card{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 6px;
+    width:300px;
+    height: 380px;
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+    font-family: "Poppins", sans-serif;
+}
+.card p, .card h2, .card a{
+   margin: 10px;
+   font-family: "Poppins", sans-serif;
+}
+.card h2{
+    font-size: 18px;
+}
+ 
+.card a{
+    background-color: black;
+    color:white;
+    border: 1px solid white;
+    text-decoration: none;
+    border-radius: 18px;
+    width: 50%;
+    text-align: center;
+    padding: 10px;
+    font-size: 15px;
+}
+.card p{
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+     overflow: hidden;
+     font-size: 15px;
+  }
+
 @media screen and (max-width:800px) {
+    .cards{
+        justify-content: center;
+        align-items: center;
+    }
+   .card{
+    width:300px;
+    height: 380px;
+   }
+     
 .h1{
+    font-size:21px;
+}
+.main-h1{
+    margin-top: 30%;
     font-size:21px;
 }
 nav{

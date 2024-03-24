@@ -62,7 +62,7 @@
         require(['vs/editor/editor.main'], function () {
             // Monaco Editor is ready to be used
             editor = monaco.editor.create(document.getElementById('editor'), {
-                value: '#include <stdio.h>\n\nint main() {\n    printf("Enter a number: ");\n    int num;\n    scanf("%d", &num);\n    printf("Entered number: %d\\n", num);\n    return 0;\n}',
+                value: '#include <stdio.h>\n\nint main() {\n printf("Online Compilar - Write, Run, and Save Code");\n return 0;\n}',
                 language: 'c',
                 theme: 'vs',
                 fontSize: 18,
