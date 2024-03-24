@@ -14,11 +14,11 @@ function menuBarOpen(){
     open.style.display = "none";
     close.style.display = "block";
     links.style.display="flex";
-    nav.style.height = "50vh";
+    nav.style.height = "100vh";
 }
 function menuBarClose(){
     open.style.display = "block";
     close.style.display = "none";
     links.style.display="none";
-    nav.style.height = "7vh";
+    nav.style.height = "6vh";
 }

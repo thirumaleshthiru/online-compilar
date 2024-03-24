@@ -19,10 +19,11 @@ font-family: "Poppins", sans-serif;
 .links{
 display: flex;
 gap:45px;
-
+ 
 }
 .links li{
 list-style-type: none;
+ 
 }
 #logo{
 margin-left: 30px;
@@ -155,7 +156,7 @@ margin: 20px;
 }
 nav{
 z-index: 3;
-height: 7vh;
+height: 6vh;
 display: flex;
 justify-content: space-between;
 align-items: normal;
@@ -178,8 +179,8 @@ width: 100%;
 justify-content: center;
 animation: fading 0.5s ease-in-out; 
 gap:30px;
-left:35%;
-top: 35%;
+left: 10%;
+top: 25%;
 width: 100%;
 display: none;
 }
@@ -189,10 +190,10 @@ display: block;
 }
 #logo{
 margin-left: 15px;
-font-size: 18px;
+font-size: 20px;
 }
 .menu i{
-font-size: 21px;
+font-size: 23px;
 margin-top: 3px;
 margin-right: 15px;
 transition: all 0.1s ease-in-out;
