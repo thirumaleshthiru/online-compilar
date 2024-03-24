@@ -89,7 +89,7 @@
 
 // Replace scanf() calls with user input values
 code = code.replace(scanfRegex, function(match, format, variable) {
-    var input = window.prompt("Enter a number for " + variable + ":");
+    var input = window.prompt(variable + ":");
     if (input !== null) { // If user provides input
         inputs[variable] = input; // Store user input
         return variable + ' = ' + input + ';'; // Assign input value to the variable directly
