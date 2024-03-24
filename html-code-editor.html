@@ -44,7 +44,9 @@
 <div class="editor" id="editor">
 </div>
  
-<iframe id="output-iframe"></iframe>  
+<div class="output" id="output">
+ 
+</div>  
    
 </div>
 </main>
@@ -53,7 +55,7 @@
 <h1 class="h1">What is Online HTML Code </h1>
 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem expedita officiis, omnis dolore dolores ea rem sapiente quasi, beatae inventore cum tempora, libero distinctio optio pariatur odit excepturi sint! Vel.</p>
 </section>
- 
+
 <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.29.0/min/vs/loader.js"></script>
 <script>
 let editor;  
@@ -72,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         // Output area
-        var outputArea = document.getElementById('output-iframe').contentWindow.document;
+        var outputArea = document.getElementById('output');
 
         // Theme selection dropdown
         var themeSelector = document.getElementById('theme-selector');
@@ -81,11 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var compileButton = document.getElementById('compile-button');
         compileButton.addEventListener('click', function () {
             var code = editor.getValue();
-            try {
-                // Render the HTML code in the output iframe
-                outputArea.open();
-                outputArea.write(code);
-                outputArea.close();
+            try {outputArea.innerHTML = code; 
             } catch (error) {
                 console.error('Code execution error:', error);
             }

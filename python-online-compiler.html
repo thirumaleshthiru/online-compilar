@@ -76,27 +76,31 @@
         });
 
         // Function to compile and run Python code
-        window.compileAndRun = function () {
-            var code = editor.getValue();
-            fetch('https://python-compilergu.onrender.com/compile-run', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ code: code })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    document.getElementById('output').innerText = data.output;
-                } else {
-                    document.getElementById('output').innerText = 'Error: ' + data.error;
-                }
-            })
-            .catch(error => {
-                document.getElementById('output').innerText = 'Error: ' + error.message;
-            });
-        };
+window.compileAndRun = function () {
+    var outputDiv = document.getElementById('output');
+    outputDiv.innerHTML = '<img src="infinite-spinner.svg" alt="Loading...">';  
+
+    var code = editor.getValue();
+    fetch('https://python-compilergu.onrender.com/compile-run', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ code: code })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            outputDiv.innerText = data.output;
+        } else {
+            outputDiv.innerText = 'Error: ' + data.error;
+        }
+    })
+    .catch(error => {
+        outputDiv.innerText = 'Error: ' + error.message;
+    });
+};
+
 
         // Function to save Python code
         window.saveCode = function () {
