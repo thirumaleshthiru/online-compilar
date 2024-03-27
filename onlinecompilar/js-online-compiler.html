@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>JavaScript Online Compiler (Editor)</title>
+</head>
+<body>
+    <nav>
+        <a href="./index.html" id="logo"><i class="fa-solid fa-terminal"></i> Online Compilar</a>
+        <div class="menu" id="menu">
+            <i class="fa-solid fa-bars" id="open" ></i>
+            <i class="fa-sharp fa-solid fa-xmark" id="close"></i>
+            </div>
+            
+        <ul class="links">
+        <li><a href="./python-online-compiler.html" class="link">Python</a></li>
+        <li><a href="./c-online-compiler.html" class="link">C</a></li>
+        <li><a href="./java-online-compiler.html" class="link">Java</a></li>
+        <li><a href="./html-code-editor.html" class="link">HTML</a></li>
+        <li><a href="./js-online-compiler.html" class="link">JavaScript</a></li>
+        <li><a href="./typescript-online-compiler.html" class="link">TypeScript</a></li>
+        </ul>
+        </nav>
+
+    <div class="bar">
+        <div class="themes">
+            <label for="theme-selector">Select Theme:</label>
+            <select id="theme-selector" onchange="changeTheme()">
+                <option value="vs">Light Theme</option>
+                <option value="vs-dark">Dark Theme</option>
+                <option value="hc-black">High Contrast</option>
+            </select> 
+        </div>
+        <div class="buttons">
+            <button id="compile-button" onclick="compileAndRun()"><i class="fa-solid fa-play"></i>Run Code</button>
+            <button id="save-button" onclick="saveCode()"><i class="fa-solid fa-save"></i>Save Code</button>
+        </div>
+    </div>
+
+    <main>
+        <div class="code-editor">
+            <div class="editor" id="editor"></div>
+            <div class="output" id="output"></div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.29.0/min/vs/loader.js"></script>
+    <script>
+        let editor;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.29.0/min/vs' }});
+
+            require(['vs/editor/editor.main'], function () {
+                // Monaco Editor is ready to be used
+                editor = monaco.editor.create(document.getElementById('editor'), {
+                    value: '// Feedback or Errors: Please send to thirumalesh@gmail.com \n console.log("Hello, World!");',
+                    language: 'javascript',
+                    theme: 'vs',
+                    fontSize:18,
+                    minimap: { enabled: false }
+                });
+
+                // Function to change the Monaco Editor theme
+                window.changeTheme = function () {
+                    var selectedTheme = document.getElementById('theme-selector').value;
+                    monaco.editor.setTheme(selectedTheme);
+                };
+            });
+        });
+
+        // Function to compile and run JavaScript code
+        window.compileAndRun = function () {
+            var code = editor.getValue();
+            try {
+                // Capture console output
+                var consoleOutput = captureConsoleOutput(function () {
+                    // Execute the code
+                    eval(code);
+                });
+
+                // Display output
+                document.getElementById('output').textContent = consoleOutput;
+            } catch (error) {
+                console.error('Code execution error:', error);
+                document.getElementById('output').textContent = 'Error: ' + error.message;
+            }
+        };
+
+        // Function to save JavaScript code
+        window.saveCode = function () {
+            var code = editor.getValue();
+            // Example: Save code using File API
+            var blob = new Blob([code], { type: 'text/javascript' });
+            var filename = 'javascript_code.js'; // Adjust filename as needed
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = filename;
+            link.click();
+        };
+
+        // Function to capture console output
+        function captureConsoleOutput(callback) {
+            var consoleOutput = '';
+            var originalConsoleLog = console.log;
+
+            // Override console.log to capture output
+            console.log = function () {
+                for (var i = 0; i < arguments.length; i++) {
+                    if (typeof arguments[i] === 'object') {
+                        consoleOutput += JSON.stringify(arguments[i]) + '\n';
+                    } else {
+                        consoleOutput += arguments[i] + '\n';
+                    }
+                }
+                originalConsoleLog.apply(console, arguments);
+            };
+
+            try {
+                // Execute the callback function
+                callback();
+            } finally {
+                // Restore the original console.log
+                console.log = originalConsoleLog;
+            }
+
+            return consoleOutput;
+        }
+    </script>
+    <script src="./app.js"></script>
+</body>
+</html>

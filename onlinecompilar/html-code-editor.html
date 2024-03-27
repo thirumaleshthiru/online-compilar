@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <title>HTML Online Editor</title>
+</head>
+<body>
+    <nav>
+        <a href="./index.html" id="logo"><i class="fa-solid fa-terminal"></i> Online Compilar</a>
+        <div class="menu" id="menu">
+            <i class="fa-solid fa-bars" id="open" ></i>
+            <i class="fa-sharp fa-solid fa-xmark" id="close"></i>
+            </div>
+            
+        <ul class="links">
+        <li><a href="./python-online-compiler.html" class="link">Python</a></li>
+        <li><a href="./c-online-compiler.html" class="link">C</a></li>
+        <li><a href="./java-online-compiler.html" class="link">Java</a></li>
+        <li><a href="./html-code-editor.html" class="link">HTML</a></li>
+        <li><a href="./js-online-compiler.html" class="link">JavaScript</a></li>
+        <li><a href="./typescript-online-compiler.html" class="link">TypeScript</a></li>
+        </ul>
+        </nav>
+
+<div class="bar">
+<div class="themes">
+<label for="theme-selector">Select Theme:</label>
+<select id="theme-selector" onchange="changeTheme()">
+<option value="vs">Light Theme</option>
+<option value="vs-dark">Dark Theme</option>
+<option value="hc-black">High Contrast</option>
+</select> 
+</div>
+<div class="buttons">
+    <button id="compile-button"><i class="fa-solid fa-play"></i>Execute Code</button>
+    <button id="save-button"><i class="fa-solid fa-save"></i> Save Code</button></div>
+</div>
+
+<main>
+<h1 class="h1">HTML Online Code Editor</h1>
+<div class="code-editor">
+<div class="editor" id="editor">
+</div>
+ 
+<div class="output" id="output">
+</div>  
+   
+</div>
+</main>
+
+<section class="content">
+<h1 class="h1">What is Online HTML Code </h1>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem expedita officiis, omnis dolore dolores ea rem sapiente quasi, beatae inventore cum tempora, libero distinctio optio pariatur odit excepturi sint! Vel.</p>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.29.0/min/vs/loader.js"></script>
+<script>
+let editor;  
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Load the Monaco Editor
+    require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.29.0/min/vs' }});
+    require(['vs/editor/editor.main'], function () {
+        // Monaco Editor is ready to be used
+        editor = monaco.editor.create(document.getElementsByClassName('editor')[0], {
+            value: `<!---Feedback or Errors: Please send to thirumalesh@gmail.com---> \n<h1>Welcome to Online Compilar HTML Editor</h1>`,
+            language: 'html',
+            theme: 'vs',
+            fontSize: 18,
+            minimap: { enabled: false },
+            automaticIndentation: true,
+            
+        });
+
+        // Output area
+        var outputArea = document.getElementById('output');
+
+        // Theme selection dropdown
+        var themeSelector = document.getElementById('theme-selector');
+
+        // Compile code button
+        var compileButton = document.getElementById('compile-button');
+        compileButton.addEventListener('click', function () {
+            var code = editor.getValue();
+            try {outputArea.innerHTML = code; 
+            } catch (error) {
+                console.error('Code execution error:', error);
+            }
+        });
+
+        // Function to change the Monaco Editor theme
+        window.changeTheme = function () {
+            var selectedTheme = themeSelector.value;
+            monaco.editor.setTheme(selectedTheme);
+        };
+    });
+
+    function saveCode() {
+        var code = editor.getValue();
+        // Example: Save code using File API
+        var blob = new Blob([code], { type: 'text/plain' });
+        var filename = 'my_code.html'; // Adjust filename as needed
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = filename;
+        link.click();
+    }
+
+    // Add event listener to the save button
+    var saveButton = document.getElementById('save-button');
+    saveButton.addEventListener('click', saveCode);
+});
+</script>
+<script src="./app.js"></script>
+</body>
+</html>
